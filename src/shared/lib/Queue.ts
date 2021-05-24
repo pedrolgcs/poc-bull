@@ -13,11 +13,13 @@ const queues = Object.values(jobs).map((job) => ({
   options: job.options,
 }));
 
+// publish
 function add(name: string, data: any): Promise<Queue.Job<any>> | void {
   const queue = queues.find((queue) => queue.name === name);
   return queue?.bull.add(data, queue.options);
 }
 
+// subscribe
 function process(): void {
   return queues.forEach((queue) => {
     queue.bull.process(queue.handle);
